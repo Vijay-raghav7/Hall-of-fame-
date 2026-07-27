@@ -1,1 +1,68 @@
+# Stored Cross-Site Scripting (XSS) in First Name / Last Name Field
+
+## Status
+
+- Reported Responsibly ✅
+- Vendor Acknowledged ✅
+- Hall of Fame Recognition ✅
+
+## Summary
+
+A Stored Cross-Site Scripting (XSS) vulnerability was identified in the application's account registration functionality. User-controlled input supplied in the **First Name** and **Last Name** fields was stored without sufficient sanitization and later rendered without proper output encoding, allowing arbitrary JavaScript execution.
+
+## Severity
+
+**High**
+
+## CWE
+
+- CWE-79: Improper Neutralization of Input During Web Page Generation (Cross-site Scripting)
+
+## Impact
+
+Successful exploitation could allow an attacker to:
+
+- Execute arbitrary JavaScript in the victim's browser.
+- Steal session cookies if they are accessible to JavaScript.
+- Impersonate users through session hijacking.
+- Target privileged users if the affected fields are displayed in administrative interfaces.
+- Perform phishing or other client-side attacks.
+
+## Proof of Concept
+
+Payload used during testing:
+
+```html
+</script><script>alert(document.cookie)</script>
+```
+
+The payload was stored successfully and executed automatically after login when the affected page loaded.
+
+## Steps to Reproduce
+
+1. Register a new account.
+2. Enter the payload into the **First Name** field.
+3. Complete registration.
+4. Log in.
+5. Observe that the stored JavaScript executes immediately after authentication.
+
+## Remediation
+
+- Apply context-aware output encoding.
+- Sanitize user-controlled HTML.
+- Validate input before storage.
+- Implement a strict Content Security Policy (CSP).
+- Mark session cookies as **HttpOnly**, **Secure**, and **SameSite** where appropriate.
+
+## Timeline
+
+| Event | Date |
+|-------|------|
+| Hall of Fame | 2026-07-23 |
+
+## Hall of Fame
+
+Official Recognition:
+
+https://example.com/hall-of-fame
 
